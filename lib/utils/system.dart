@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:bonsoir/bonsoir.dart';
-import 'package:get/get.dart';
 
 class System {
   System._();
@@ -41,12 +40,6 @@ class System {
     await broadcast.start();
 
     server = await ServerSocket.bind(address, serverPort);
-
-    server.listen((event) {
-      event.listen((event) {
-        String.fromCharCodes(event).printInfo();
-      });
-    });
   }
 }
 

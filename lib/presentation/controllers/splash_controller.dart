@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:polling_server/utils/routes.dart';
 import 'package:polling_server/utils/system.dart';
 
 class SplashController extends GetxController {
@@ -8,6 +9,7 @@ class SplashController extends GetxController {
 
     System.instance.init().then((value) {
       Get.back();
+      Get.toNamed(Routes.home);
     });
   }
 }
