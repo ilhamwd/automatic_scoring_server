@@ -42,7 +42,8 @@ jobs:
       - name: Copy build artifacts
         run: |
           mkdir -p builds/windows
-          cp local_api_server-${{ github.ref_name }}-windows.zip builds/windows/
+          cp build/windows/x64/runner/Release/local_api_server-main-windows.zip builds/windows/
+
 
       - name: Commit and push build artifacts
         run: |
