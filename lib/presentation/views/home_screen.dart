@@ -19,7 +19,17 @@ class HomeScreen extends GetView<HomeController> {
               Text("Total clients: ${controller.numOfClients}"),
               const SizedBox(height: 10),
               Text(
-                  "Total received packets: ${controller.numOfPackets} (${controller.sizeOfPackets} bytes)")
+                  "Total received packets: ${controller.numOfPackets} (${controller.sizeOfPackets} bytes)"),
+              const SizedBox(height: 10),
+              StreamBuilder(
+                  stream: System.instance.broadcast.eventStream,
+                  builder: (context, snapshot) {
+                    return Text(snapshot.data?.type.name ?? "MT");
+                  }),
+              const SizedBox(height: 15),
+              FilledButton(
+                  onPressed: System.instance.broadcast.stop,
+                  child: const Icon(Icons.stop_rounded)),
             ],
           );
         }),
