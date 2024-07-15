@@ -18,11 +18,11 @@ class HomeController extends GetxController {
     System.instance.server.listen((client) {
       numOfClients++;
 
-      client.listen((event) async {
+      client.listen((event) {
         numOfPackets++;
         sizeOfPackets += event.length;
 
-        client.add(await generateRandomImage(100, 100));
+        generateRandomImage(100, 100).then((value) => client.add(value));
       });
     });
   }
