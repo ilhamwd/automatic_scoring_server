@@ -11,24 +11,41 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
+
       - name: Install project dependencies
         run: flutter pub get
+
       - name: Build artifacts
         run: flutter build windows --release
+
       - name: Package Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          filename: local_api_server-${{github.ref_name}}-windows.zip
+          filename: local_api_server-${{ github.ref_name }}-windows.zip
           directory: build/windows/x64/runner/Release/
-      - name: Release to github
-        uses: softprops/action-gh-release@v1
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{github.ref_name}}
-          files: build/windows/x64/runner/Release/local_api_server-${{github.ref_name}}-windows.zip
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'ilhamwd'
+          git config --global user.email 'iilhamwd@gmail.com'
+
+      - name: Checkout build-artifacts branch
+        run: |
+          git fetch
+          git checkout -B build-artifacts origin/build-artifacts || git checkout -B build-artifacts
+
+      - name: Copy build artifacts
+        run: |
+          mkdir -p builds/windows
+          cp local_api_server-${{ github.ref_name }}-windows.zip builds/windows/
+
+      - name: Commit and push build artifacts
+        run: |
+          git add builds/windows/local_api_server-${{ github.ref_name }}-windows.zip
+          git commit -m "Add Windows build artifacts for ${{ github.ref_name }}"
+          git push origin build-artifacts --force
