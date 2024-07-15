@@ -11,6 +11,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+          
       - name: Install project dependencies
         run: flutter pub get
         
@@ -31,6 +36,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -b build-artifacts || git checkout build-artifacts
           git add builds/windows/local_api_server-${{github.ref_name}}-windows.zip
           git commit -m "Add Windows build artifacts for ${{ github.ref_name }}"
           git push origin build-artifacts
