@@ -27,6 +27,7 @@ jobs:
       - name: Release to github
         uses: softprops/action-gh-release@v1
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{github.ref_name}}
